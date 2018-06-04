@@ -1,10 +1,8 @@
 # imports
-import os
-
-from flask import Flask, request, session, g, redirect, url_for, \
-     abort, render_template, flash, jsonify
+import os, datetime
+from flask import Flask, request, session, redirect, url_for, \
+    abort, render_template, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
 
 # get the folder where this file runs
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -28,22 +26,36 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 db = SQLAlchemy(app)
 
-import models
+# the models imports must come after 'app' is created
+from flaskr.models.post import Post
+from flaskr.models.contact import Contact
 
 
 @app.route('/')
 def index():
     """Searches the database for entries, then displays them."""
-    entries = db.session.query(models.Flaskr)
-    return render_template('index.html', entries=entries)
+    entries = db.session.query(Post)
+    contacts = db.session.query(Contact)
+    return render_template('index.html', entries=entries, contacts=contacts)
 
 
-@app.route('/add', methods=['POST'])
+@app.route('/contacts/add', methods=['POST'])
+def add_contact():
+    """Adds new name to the database."""
+    if not session.get('logged_in'):
+        abort(401)
+    new_entry = Contact(request.form['last_name'], request.form['first_name'])
+    db.session.add(new_entry)
+    db.session.commit()
+    flash('New contact was successfully added')
+    return redirect(url_for('index'))
+
+@app.route('/posts/add', methods=['POST'])
 def add_entry():
     """Adds new post to the database."""
     if not session.get('logged_in'):
         abort(401)
-    new_entry = models.Flaskr(request.form['title'], request.form['text'])
+    new_entry = Post(request.form['title'], request.form['text'], datetime.datetime.now().isoformat())
     db.session.add(new_entry)
     db.session.commit()
     flash('New entry was successfully posted')
@@ -74,13 +86,13 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/delete/<int:post_id>', methods=['GET'])
+@app.route('/posts/delete/<int:post_id>', methods=['GET'])
 def delete_entry(post_id):
     """Deletes post from database."""
-    result = {'status': 0, 'message': 'Error'}
+    # result = {'status': 0, 'message': 'Error'}
     try:
         new_id = post_id
-        db.session.query(models.Flaskr).filter_by(post_id=new_id).delete()
+        db.session.query(Post).filter_by(post_id=new_id).delete()
         db.session.commit()
         result = {'status': 1, 'message': "Post Deleted"}
         flash('The entry was deleted.')
@@ -88,11 +100,25 @@ def delete_entry(post_id):
         result = {'status': 0, 'message': repr(e)}
     return jsonify(result)
 
+@app.route('/contacts/delete/<int:post_id>', methods=['GET'])
+def delete_contact(post_id):
+    """Deletes post from database."""
+    # result = {'status': 0, 'message': 'Error'}
+    try:
+        new_id = post_id
+        db.session.query(Contact).filter_by(contact_id=new_id).delete()
+        db.session.commit()
+        result = {'status': 1, 'message': "Contact Deleted"}
+        flash('The contact was deleted.')
+    except Exception as e:
+        result = {'status': 0, 'message': repr(e)}
+    return jsonify(result)
 
-@app.route('/search/', methods=['GET'])
+
+@app.route('/posts/search/', methods=['GET'])
 def search():
     query = request.args.get("query")
-    entries = db.session.query(models.Flaskr)
+    entries = db.session.query(Post)
     if query:
         return render_template('search.html', entries=entries, query=query)
     return render_template('search.html')

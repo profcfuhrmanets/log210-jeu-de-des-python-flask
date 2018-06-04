@@ -36,7 +36,7 @@
     <ul class="entries">
       {% for entry in entries %}
         {% if query.lower() in entry.title.lower() or query.lower() in entry.text.lower() %}
-        <li class="entry"><h2 id="{{ entry.post_id }}">{{ entry.title }}</h2>{{ entry.text|safe }}</li>
+        <li class="entry"><h2 id="{{ entry.post_id }}">{{ entry.title }}</h2>{{ entry.text|safe }} at <em>{{ entry.date }}</em></li>
         {% endif %}
       {% endfor %}
     </ul>

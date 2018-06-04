@@ -1,4 +1,7 @@
 env
+venv
+.idea
+*.egg-info
 *.pyc
 *.DS_Store
 __pycache__

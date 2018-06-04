@@ -1,9 +1,7 @@
 # create_db.py
 
 
-from app import db
-from models import Flaskr
-
+from flaskr.app import db
 
 # create the database and the db table
 db.create_all()
