@@ -1,58 +1,14 @@
-# Flaskr - Intro to Flask, Test-Driven Development, and JavaScript
+# Squelette pour un API simple dans Python et Flask 1.x
 
-[![Build Status](https://travis-ci.org/mjhea0/flaskr-tdd.svg?branch=master)](https://travis-ci.org/mjhea0/flaskr-tdd)
+Forked from https://github.com/mjhea0/flaskr-tdd
 
-As many of you know, Flaskr - a mini-blog-like-app - is the app you build for the official Flask [tutorial](http://flask.pocoo.org/docs/1.0/tutorial/). I've gone through the tutorial more times than I care to admit. Anyway, I wanted to take the tutorial a step further by adding test-driven development (TDD), a bit of JavaScript, and deployment. This post is that tutorial. Enjoy.
+Ce README n'est pas encore à jour...
 
-Also, if you are completely new to Flask and/or web development in general, it's important to grasp these basic fundamental concepts:
+- [ ] Remove the DB stuff
+- [ ] Change API to work with Jeu de Dés
+- [ ] Update the Tutorial?
 
-1. The difference between GET and POST requests and how functions within the app handle each.
-1. What "requests" and "responses" are.
-1. How HTML pages are rendered and/or returned to the end user.
-
-> **NOTE**: This tutorial is powered by **[TestDriven.io](https://testdriven.io/)**. Please support this open source project by purchasing the [Microservices with Docker, Flask, and React](https://testdriven.io/) course to learn how to build, test, and deploy microservices powered by Docker, Flask, and React!
-
-### What you're building
-
-![flaskr app](/flaskr-app.png)
-
-### Change Log
-
-This tutorial was last updated on May 10th, 2018:
-
-- **05/10/2018**: Updated to Python 3.6.5, Flask 1.0.2, Bootstrap 4.1.1
-- **10/16/2017**: Updated to Python 3.6.2
-- **10/16/2017**: Updated to Bootstrap 4
-- **10/10/2017**: Added a search feature
-- **07/03/2017**: Updated to Python 3.6.1
-- **01/24/2016**: Updated to Python 3! (v3.5.1)
-- **08/24/2014**: PEP8 updates.
-- **02/25/2014**: Upgraded to SQLAlchemy.
-- **02/20/2014**: Completed AJAX.
-- **12/06/2013**: Added Bootstrap 3 styles
-- **11/29/2013**: Updated unit tests.
-- **11/19/2013**: Fixed typo. Updated unit tests.
-- **11/11/2013**: Added information on requests.
-
-### Contents
-
-1. [Test Driven Development?](#test-driven-development)
-1. [Download Python](#download-python)
-1. [Project Setup](#project-setup)
-1. [First Test](#first-test)
-1. [Flaskr Setup](#flaskr-setup)
-1. [Second Test](#second-test)
-1. [Database Setup](#database-setup)
-1. [Templates and Views](#templates-and-views)
-1. [Add Some Color](#add-some-color)
-1. [Test](#test)
-1. [jQuery](#jquery)
-1. [Deployment](#deployment)
-1. [Test (again!)](#test-again)
-1. [Bootstrap](#bootstrap)
-1. [SQLAlchemy](#sqlalchemy)
-1. [Search Page](#search-page)
-1. [Conclusion](#conclusion)
+---
 
 ### Requirements
 

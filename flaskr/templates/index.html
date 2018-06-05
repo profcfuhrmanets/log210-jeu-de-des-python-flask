@@ -1,69 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Flaskr</title>
+    <title>Jeu de dés</title>
     <link rel="stylesheet" type="text/css" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("button.lancer").click(function(){
+            $.get("/api/v1/jeu/jouer/" + $(this).attr('id'), function(data, status){
+                //alert("Data: " + data + "\nStatus: " + status);
+                window.location.reload(true);
+            });
+        });
+        $("button.terminer").click(function(){
+            $.get("/api/v1/jeu/terminerJeu/" + $(this).attr('id'), function(data, status){
+                //alert("Data: " + data + "\nStatus: " + status);
+                window.location.reload(true);
+            });
+        });
+        $("button.demarrer").click(function(){
+            nomDuFormulaire = document.getElementById("formNouveauJoueur").elements["nom"].value;
+            if (nomDuFormulaire !== '') {
+                $.get("/api/v1/jeu/demarrerJeu/" + nomDuFormulaire,
+                    function (data, status) {
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        window.location.reload(true);
+                    });
+            } else {
+                alert("Spécifier un nom, SVP.");
+            }
+        });
+    });
+    </script>
 </head>
 <body>
 
 <div class="container">
 
-    <h1>Flaskr-TDD-LOG210</h1>
-
-    {% if not session.logged_in %}
-        <a class="btn btn-success" role="button" href="{{ url_for('login') }}">log in</a>
-    {% else %}
-        <a class="btn btn-warning" role="button" href="{{ url_for('logout') }}">log out</a>
-    {% endif %}
-
-    <a class="btn btn-info" role="button" href="{{ url_for('search') }}">Search</a>
-
-    <br><br>
+    <h1>JeuDeDés-Python-Flask-TDD-LOG210</h1>
 
     {% for message in get_flashed_messages() %}
         <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
     {% endfor %}
 
-    {% if session.logged_in %}
-        <form action="{{ url_for('add_entry') }}" method="post" class="add-entry form-group">
-            <dl>
-                <dt>Title:</dt>
-                <dd><input type="text" size="30" name="title" class="form-control col-sm-4"></dd>
-                <dt>Text:</dt>
-                <dd><textarea name="text" rows="5" cols="40" class="form-control col-sm-4"></textarea></dd>
-                <dd><input type="submit" class="btn btn-primary" value="Share"></dd>
-            </dl>
-        </form>
-        <form action="{{ url_for('add_contact') }}" method="post" class="add-contact form-group">
-            <dl>
-                <dt>Last name:</dt>
-                <dd><input type="text" size="30" name="last_name" class="form-control col-sm-4"></dd>
-                <dt>First name:</dt>
-                <dd><input type="text" size="30" name="first_name" class="form-control col-sm-4"></dd>
-                <dd><input type="submit" class="btn btn-primary" value="Add"></dd>
-            </dl>
-        </form>
-    {% endif %}
+    <br>
+
+    <form id="formNouveauJoueur" action="javascript:void(0);" class="form-group">
+      <dl>
+        <dt>Nom du nouveau joueur</dt>
+        <dd><input type="text" name="nom" class="form-control col-sm-4"></dd>
+      </dl>
+        <button class="demarrer">Démarrer</button>
+    </form>
 
     <br>
 
-    <h3>Posts</h3>
+    <h3>Joueurs</h3>
     <ul class="entries">
-        {% for entry in entries %}
-            <li class="entry"><h2 id="{{ entry.post_id }}">{{ entry.title }}</h2>{{ entry.text|safe }} at
-                <em>{{ entry.date }}</em></li>
-        {% else %}
-            <li><em>No entries yet. Add some!</em></li>
-        {% endfor %}
-    </ul>
-
-    <h3>Contacts</h3>
-    <ul class="contacts">
-        {% for contact in contacts %}
-            <li class="contact"><P id="{{ contact.post_id }}">{{ contact.last_name }}, {{ contact.first_name }}</P>
+        {% for joueur in joueurs %}
+            <li class="joueur"><STRONG id="{{ joueur.nom }}">{{ joueur.nom }}</STRONG> tentatives:
+                {{ joueur.nb_lancers }}, réussites: {{ joueur.nb_lancers_gagnes }}
+                <button class="lancer" id="{{ joueur.nom }}">Lancer les dés</button>
+                <button class="terminer" id="{{ joueur.nom }}">Terminer</button>
             </li>
         {% else %}
-            <li><em>No contacts yet. Add some!</em></li>
+            <li><em>Pas de joueurs encore.</em></li>
         {% endfor %}
     </ul>
 

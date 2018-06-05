@@ -1,128 +1,126 @@
 # imports
-import os, datetime
-from flask import Flask, request, session, redirect, url_for, \
-    abort, render_template, flash, jsonify
-from flask_sqlalchemy import SQLAlchemy
+import json
+import os
+
+from flask import Flask, render_template, flash
 
 # get the folder where this file runs
-basedir = os.path.abspath(os.path.dirname(__file__))
+from markupsafe import Markup
+
+# Contrôleur(s) GRASP appelé(s) dans le MDD
+from flaskr.models.jeu_de_des import JeuDeDes
+
+# basedir = os.path.abspath(os.path.dirname(__file__))
 
 # configuration
-DATABASE = 'flaskr.db'
+# DATABASE = 'flaskr.db'
 DEBUG = True
 SECRET_KEY = 'my_precious'
-USERNAME = 'admin'
-PASSWORD = 'admin'
+# USERNAME = 'admin'
+# PASSWORD = 'admin'
 
 # define the full path for the database
-DATABASE_PATH = os.path.join(basedir, DATABASE)
+# DATABASE_PATH = os.path.join(basedir, DATABASE)
 
 # database config
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_PATH
-SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-# create app
-app = Flask(__name__)
-app.config.from_object(__name__)
-db = SQLAlchemy(app)
-
-# the models imports must come after 'app' is created
-from flaskr.models.post import Post
-from flaskr.models.contact import Contact
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_PATH
+# SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-@app.route('/')
-def index():
-    """Searches the database for entries, then displays them."""
-    entries = db.session.query(Post)
-    contacts = db.session.query(Contact)
-    return render_template('index.html', entries=entries, contacts=contacts)
+def create_app(config_name):
+    """
 
+    :type config_name: str
+    """
+    # create app
+    app = Flask(__name__)
+    app.config.from_object(__name__)
+#    db = SQLAlchemy(app)
 
-@app.route('/contacts/add', methods=['POST'])
-def add_contact():
-    """Adds new name to the database."""
-    if not session.get('logged_in'):
-        abort(401)
-    new_entry = Contact(request.form['last_name'], request.form['first_name'])
-    db.session.add(new_entry)
-    db.session.commit()
-    flash('New contact was successfully added')
-    return redirect(url_for('index'))
+    # Init contrôleur GRASP
+    jeu = JeuDeDes()
 
-@app.route('/posts/add', methods=['POST'])
-def add_entry():
-    """Adds new post to the database."""
-    if not session.get('logged_in'):
-        abort(401)
-    new_entry = Post(request.form['title'], request.form['text'], datetime.datetime.now().isoformat())
-    db.session.add(new_entry)
-    db.session.commit()
-    flash('New entry was successfully posted')
-    return redirect(url_for('index'))
+    @app.route('/api/v1/jeu/demarrerJeu/<nom>', methods=['GET'])
+    def new_game(nom):
 
+        try:
+            # appeler le contrôleur GRASP
+            joueur = jeu.demarrer_jeu(nom)
+            resp = json.dumps({'nom': joueur.nom})
+            stat = 201
+            flash('Nouveau jeu pour ' + nom)
+        except ValueError as e:
+            resp = json.dumps({'erreur': str(e)})
+            stat = 400
+            flash(str(e))
+        finally:
+            response = app.response_class(
+                response=resp,
+                status=stat,
+                mimetype='application/json'
+            )
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    """User login/authentication/session management."""
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('index'))
-    return render_template('login.html', error=error)
+        return response
 
+    @app.route('/api/v1/jeu/jouer/<nom>', methods=['GET'])
+    def play_game(nom):
 
-@app.route('/logout')
-def logout():
-    """User logout/authentication/session management."""
-    session.pop('logged_in', None)
-    flash('You were logged out')
-    return redirect(url_for('index'))
+        try:
+            # appeler le contrôleur GRASP
+            result = jeu.jouer(nom)
+            r_json = json.loads(result)
+            resp = json.dumps(
+                {'message': 'Success',
+                 'result': r_json}
+            )
+            stat = 200
+            flash(Markup('Résultat pour ' + nom + ':<br>' + str(r_json['v1']) + ' + ' + str(r_json['v2']) + ' = ' + str(r_json['somme'])))
+        except ValueError as e:
+            resp = json.dumps({'erreur': str(e)})
+            stat = 400
+            flash(str(e))
+        finally:
+            response = app.response_class(
+                response=resp,
+                status=stat,
+                mimetype='application/json'
+            )
 
+        return response
 
-@app.route('/posts/delete/<int:post_id>', methods=['GET'])
-def delete_entry(post_id):
-    """Deletes post from database."""
-    # result = {'status': 0, 'message': 'Error'}
-    try:
-        new_id = post_id
-        db.session.query(Post).filter_by(post_id=new_id).delete()
-        db.session.commit()
-        result = {'status': 1, 'message': "Post Deleted"}
-        flash('The entry was deleted.')
-    except Exception as e:
-        result = {'status': 0, 'message': repr(e)}
-    return jsonify(result)
+    @app.route('/api/v1/jeu/terminerJeu/<nom>', methods=['GET'])
+    def end_game(nom):
 
-@app.route('/contacts/delete/<int:post_id>', methods=['GET'])
-def delete_contact(post_id):
-    """Deletes post from database."""
-    # result = {'status': 0, 'message': 'Error'}
-    try:
-        new_id = post_id
-        db.session.query(Contact).filter_by(contact_id=new_id).delete()
-        db.session.commit()
-        result = {'status': 1, 'message': "Contact Deleted"}
-        flash('The contact was deleted.')
-    except Exception as e:
-        result = {'status': 0, 'message': repr(e)}
-    return jsonify(result)
+        try:
+            # appeler le contrôleur GRASP
+            result = jeu.terminer_jeu(nom)
+            resp = json.dumps(
+                {'message': 'Success',
+                 'result': json.loads(result)}
+            )
+            stat = 200
+            flash('Jeu terminé pour ' + nom)
+        except ValueError as e:
+            resp = json.dumps({'erreur': str(e)})
+            stat = 400
+            flash(str(e))
+        finally:
+            response = app.response_class(
+                response=resp,
+                status=stat,
+                mimetype='application/json'
+            )
 
+        return response
 
-@app.route('/posts/search/', methods=['GET'])
-def search():
-    query = request.args.get("query")
-    entries = db.session.query(Post)
-    if query:
-        return render_template('search.html', entries=entries, query=query)
-    return render_template('search.html')
+    @app.route('/')
+    def index():
+        """Searches the map of players then displays them."""
+        joueurs = jeu.joueurs.values()
+        return render_template('index.html', joueurs=joueurs)
 
+    if __name__ == '__main__':
+        app.run()
 
-if __name__ == '__main__':
-    app.run()
+    return app
+

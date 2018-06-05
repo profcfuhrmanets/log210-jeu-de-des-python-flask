@@ -1,146 +1,104 @@
 import unittest
-import os
 import json
 
-from flaskr.app import app, db
+from flaskr.app import create_app
 
-TEST_DB = 'test.db'
+TEST_NOM1 = 'Jean-Marc'
 
 
-class BasicTestCase(unittest.TestCase):
+class GameStartTest(unittest.TestCase):
 
-    def test_database(self):
-        """initial test. ensure that the database exists"""
-        tester = os.path.exists("flaskr.db")
-        self.assertTrue(tester)
+    def setUp(self):
+        """Start the app before each test"""
+        self.app = create_app(config_name="testing")
+        self.client = self.app.test_client()
 
-    def test_index(self):
-        """initial test. ensure flask was set up correctly"""
-        tester = app.test_client(self)
-        response = tester.get('/', content_type='html/text')
+    def test_start(self):
+        """testing creation of game for a new player"""
+        response = self.client.get('/api/v1/jeu/demarrerJeu/' + TEST_NOM1, content_type='html/text')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(json.loads(response.data)['nom'], TEST_NOM1)
+
+    def test_start_null_name(self):
+        """testing creation of game for a new player"""
+        response = self.client.get('/api/v1/jeu/demarrerJeu/', content_type='html/text')
+        self.assertEqual(response.status_code, 404)
+
+    def test_duplicate_start(self):
+        """testing creation of game for an existing player"""
+        response = self.client.get('/api/v1/jeu/demarrerJeu/' + TEST_NOM1, content_type='html/text')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(json.loads(response.data)['nom'], TEST_NOM1)
+
+        response2 = self.client.get('/api/v1/jeu/demarrerJeu/' + TEST_NOM1, content_type='html/text')
+        self.assertEqual(response2.status_code, 400)
+        self.assertTrue('existe déjà' in json.loads(response2.data)['erreur'])
+
+
+class GamePlayTest(unittest.TestCase):
+
+    def setUp(self):
+        """Start the app before each test"""
+        self.app = create_app(config_name="testing")
+        self.client = self.app.test_client()
+
+    def test_jouer_joueur_nonexistant(self):
+        """testing play of game for an non-existing player"""
+        response = self.client.get('/api/v1/jeu/jouer/' + TEST_NOM1, content_type='html/text')
+        self.assertEqual(response.status_code, 400)
+        self.assertTrue('n\'existe pas' in json.loads(response.data)['erreur'])
+
+    def test_jouer(self):
+        """testing play of game for an existing player"""
+        response_0 = self.client.get('/api/v1/jeu/demarrerJeu/' + TEST_NOM1, content_type='html/text')
+        response = self.client.get('/api/v1/jeu/jouer/' + TEST_NOM1, content_type='html/text')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.data)['result']['nom'], TEST_NOM1)
 
-class ContactTestCase(unittest.TestCase):
-    def setUp(self):
-        """Set up a blank temp database before each test"""
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        app.config['TESTING'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-            os.path.join(basedir, TEST_DB)
-        self.app = app.test_client()
-        db.create_all()
+    def test_jouer_many_times(self):
+        """testing multiple plays of game for an existing player"""
+        response_0 = self.client.get('/api/v1/jeu/demarrerJeu/' + TEST_NOM1, content_type='html/text')
+        for i in range(20):
+            response = self.client.get('/api/v1/jeu/jouer/' + TEST_NOM1, content_type='html/text')
+            r_data_json = json.loads(response.data)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(r_data_json['result']['nom'], TEST_NOM1)
+            self.assertEqual(r_data_json['result']['lancers'], i+1)
+            self.assertIn(r_data_json['result']['v1'], range(1, 7))
+            self.assertIn(r_data_json['result']['v2'], range(1, 7))
+            self.assertEqual(r_data_json['result']['somme'], r_data_json['result']['v1']+r_data_json['result']['v2'])
 
-    def tearDown(self):
-        """Destroy blank temp database after each test"""
-        db.drop_all()
-
-    def login(self, username, password):
-        """Login helper function"""
-        return self.app.post('/login', data=dict(
-            username=username,
-            password=password
-        ), follow_redirects=True)
-
-    def logout(self):
-        """Logout helper function"""
-        return self.app.get('/logout', follow_redirects=True)
-
-    # assert functions
-
-    def test_empty_db(self):
-        """Ensure database is blank"""
-        rv = self.app.get('/')
-        self.assertIn(b'No entries yet. Add some!', rv.data)
-
-    def test_login_logout(self):
-        """Test login and logout using helper functions"""
-        rv = self.login(app.config['USERNAME'], app.config['PASSWORD'])
-        self.assertIn(b'You were logged in', rv.data)
-        rv = self.logout()
-        self.assertIn(b'You were logged out', rv.data)
-        rv = self.login(app.config['USERNAME'] + 'x', app.config['PASSWORD'])
-        self.assertIn(b'Invalid username', rv.data)
-        rv = self.login(app.config['USERNAME'], app.config['PASSWORD'] + 'x')
-        self.assertIn(b'Invalid password', rv.data)
-
-    def test_add(self):
-        """Ensure that user can create contacts"""
-        self.login(app.config['USERNAME'], app.config['PASSWORD'])
-        rv = self.app.post('/contacts/add', data=dict(
-            last_name='Smith',
-            first_name='James'
-        ), follow_redirects=True)
-        self.assertNotIn(b'No entries here so far', rv.data)
-        self.assertIn(b'Smith', rv.data)
-        self.assertIn(b'James', rv.data)
-
-    def test_delete(self):
-        """Ensure the messages are being deleted"""
-        rv = self.app.get('/contacts/delete/1')
-        data = json.loads(rv.data)
-        self.assertEqual(data['status'], 1)
+    def test_jouer_null_name(self):
+        """testing creation of game for a new player"""
+        response = self.client.get('/api/v1/jeu/jouer/', content_type='html/text')
+        self.assertEqual(response.status_code, 404)
 
 
-class PostTestCase(unittest.TestCase):
+class GameEndTest(unittest.TestCase):
 
     def setUp(self):
-        """Set up a blank temp database before each test"""
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        app.config['TESTING'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-            os.path.join(basedir, TEST_DB)
-        self.app = app.test_client()
-        db.create_all()
+        """Start the app before each test"""
+        self.app = create_app(config_name="testing")
+        self.client = self.app.test_client()
 
-    def tearDown(self):
-        """Destroy blank temp database after each test"""
-        db.drop_all()
+    def test_terminer_jeu(self):
+        """testing ending of game for an existing player"""
+        response_0 = self.client.get('/api/v1/jeu/demarrerJeu/' + TEST_NOM1, content_type='html/text')
+        response_1 = self.client.get('/api/v1/jeu/jouer/' + TEST_NOM1, content_type='html/text')
+        response = self.client.get('/api/v1/jeu/terminerJeu/' + TEST_NOM1, content_type='html/text')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.data)['result']['nom'], TEST_NOM1)
 
-    def login(self, username, password):
-        """Login helper function"""
-        return self.app.post('/login', data=dict(
-            username=username,
-            password=password
-        ), follow_redirects=True)
+    def test_terminer_jeu_joueur_nonexistant(self):
+        """testing ending of game for an existing player"""
+        response = self.client.get('/api/v1/jeu/terminerJeu/' + TEST_NOM1, content_type='html/text')
+        self.assertEqual(response.status_code, 400)
+        self.assertTrue('n\'existe pas' in json.loads(response.data)['erreur'])
 
-    def logout(self):
-        """Logout helper function"""
-        return self.app.get('/logout', follow_redirects=True)
-
-    # assert functions
-
-    def test_empty_db(self):
-        """Ensure database is blank"""
-        rv = self.app.get('/')
-        self.assertIn(b'No entries yet. Add some!', rv.data)
-
-    def test_login_logout(self):
-        """Test login and logout using helper functions"""
-        rv = self.login(app.config['USERNAME'], app.config['PASSWORD'])
-        self.assertIn(b'You were logged in', rv.data)
-        rv = self.logout()
-        self.assertIn(b'You were logged out', rv.data)
-        rv = self.login(app.config['USERNAME'] + 'x', app.config['PASSWORD'])
-        self.assertIn(b'Invalid username', rv.data)
-        rv = self.login(app.config['USERNAME'], app.config['PASSWORD'] + 'x')
-        self.assertIn(b'Invalid password', rv.data)
-
-    def test_messages(self):
-        """Ensure that user can post messages"""
-        self.login(app.config['USERNAME'], app.config['PASSWORD'])
-        rv = self.app.post('/posts/add', data=dict(
-            title='<Hello>',
-            text='<strong>HTML</strong> allowed here'
-        ), follow_redirects=True)
-        self.assertNotIn(b'No entries here so far', rv.data)
-        self.assertIn(b'&lt;Hello&gt;', rv.data)
-        self.assertIn(b'<strong>HTML</strong> allowed here', rv.data)
-
-    def test_delete_message(self):
-        """Ensure the messages are being deleted"""
-        rv = self.app.get('/posts/delete/1')
-        data = json.loads(rv.data)
-        self.assertEqual(data['status'], 1)
+    def test_terminer_null_name(self):
+        """testing creation of game for a new player"""
+        response = self.client.get('/api/v1/jeu/terminerJeu/', content_type='html/text')
+        self.assertEqual(response.status_code, 404)
 
 
 if __name__ == '__main__':
