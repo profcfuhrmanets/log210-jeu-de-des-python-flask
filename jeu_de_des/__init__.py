@@ -2,4 +2,4 @@ from flask import Flask
 
 app = Flask(__name__)
 
-import flaskr.app
+import jeu_de_des.app

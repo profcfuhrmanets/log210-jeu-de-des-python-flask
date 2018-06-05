@@ -8,7 +8,7 @@ from flask import Flask, render_template, flash
 from markupsafe import Markup
 
 # Contrôleur(s) GRASP appelé(s) dans le MDD
-from flaskr.models.jeu_de_des import JeuDeDes
+from jeu_de_des.models.jeu_de_des import JeuDeDes
 
 # basedir = os.path.abspath(os.path.dirname(__file__))
 

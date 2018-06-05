@@ -1,5 +1,5 @@
-from flaskr.models.de import De
-from flaskr.models.joueur import Joueur
+from jeu_de_des.models.de import De
+from jeu_de_des.models.joueur import Joueur
 
 import logging
 import json

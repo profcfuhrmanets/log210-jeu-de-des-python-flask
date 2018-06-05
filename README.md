@@ -267,7 +267,7 @@ Essentially, we want to open a database connection, create the database based on
             self.assertEqual(response.status_code, 404)
 
         def test_database(self):
-            tester = os.path.exists("flaskr.db")
+            tester = os.path.exists(jeu_de_des)
             self.assertTrue(tester)
 
 
@@ -1132,7 +1132,7 @@ from flask_sqlalchemy import SQLAlchemy
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # configuration
-DATABASE = 'flaskr.db'
+DATABASE = jeu_de_des
 DEBUG = True
 SECRET_KEY = 'my_precious'
 USERNAME = 'admin'

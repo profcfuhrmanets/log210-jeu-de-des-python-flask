@@ -1,7 +1,7 @@
 import unittest
 import json
 
-from flaskr.app import create_app
+from jeu_de_des.app import create_app
 
 TEST_NOM1 = 'Jean-Marc'
 
