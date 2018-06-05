@@ -4,8 +4,8 @@ Forked from https://github.com/mjhea0/flaskr-tdd
 
 Ce README n'est pas encore à jour...
 
-- [ ] Remove the DB stuff
-- [ ] Change API to work with Jeu de Dés
+- [x] Remove the DB stuff
+- [X] Change API to work with Jeu de Dés
 - [ ] Update the Tutorial?
 
 ---
