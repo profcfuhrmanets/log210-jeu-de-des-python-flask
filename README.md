@@ -1,6 +1,48 @@
 # Squelette pour un API simple dans Python et Flask 1.x
 
-Forked from https://github.com/mjhea0/flaskr-tdd
+Ce squelette est proposé pour commencer les projets en LOG210. Il possède les qualités suivantes:
+
+- il est simple pour les débutants en LOG210 
+  - il n'y a pas de framework pour le front-end ni pour la persistance, mais ça n'empêche pas d'ajouter ces dimensions.
+  - il est seulement REST niveau 1, mais ça n'empêche pas de modifier l'API pour qu'il soit REST niveau 3.
+- il est orienté objet (avec Python)
+- il contient des tests pour l'API (avec `unittest`)
+- il fait une séparation entre les couches présentation et domaine, selon la méthodologie de conception du cours LOG210 (Larman)
+- il fonctionne sur Windows 10 (et probablement d'autres systèmes d'exploitation avec Python 3 en `venv`)  
+
+## D'où vient l'idée de base pour ce squelette?
+
+Le code original vient d'un dépôt Git avec un excellent tutoriel dans son README à https://github.com/mjhea0/flaskr-tdd. Ce dernier utilise même une base de données, mais il ne fait pas la
+séparation entre les couches de présentation et de domaine. C'est normal, puisque le problème démontré dans le tutoriel est simple. Pourtant, pour les systèmes complexes,
+il vaut mieux faire la séparation de ces couches et je voulais démontrer une façon de faire qui soit compatible avec la méthodologie enseignée dans le cours.
+
+Dans le cadre du cours [LOG210 de l'ÉTS](https://www.etsmtl.ca/Programmes-Etudes/1er-cycle/Fiche-de-cours?Sigle=log210), nous utilisons la méthodologie documentée par [Craig Larman dans son livre *Applying UML and Patterns*](http://www.craiglarman.com/wiki/index.php?title=Book_Applying_UML_and_Patterns). Ce livre documente beaucoup de principes avec des exemples en Java, qui n'est plus autant à la mode comme à l'époque où le livre a été écrit.
+
+Pourtant, il est encore possible de suivre cette méthodologie avec des technologies modernes comme Python. Cependant, il n'est pas évident de trouver des exemples de ces technologies qui respectent les éléments clés de la méthodologie de Larman: la séparation des couches (présentation, domaine) avec les opérations système et les classes du domaine. Par exemple, sur StackOverflow on trouve des questions comme [How to split models.py into several files](https://stackoverflow.com/q/6336664/1168342), un problème d'évolutivité pour beaucoup de frameworks populaires.
+
+Ce squelette montre ces aspects importants, dans le contexte du *Jeu de dés*, qui est l'exemple utilisé dans le chapitre 1 du livre du cours. Nous avons modifié l'exemple pour le rendre un peu plus complexe (plusieurs opérations système). Les diagrammes (faits avec [PlantUML](https://stackoverflow.com/questions/32203610/how-to-integrate-uml-diagrams-into-gitlab-or-github)) sont présentés plus bas dans la partie Artefacts.
+
+L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'avoir une license pour la version professionnelle en tant qu'étudiant à l'ÉTS, est très utile parce qu'il offre un support pour le framework Flask et les tests. Mais il n'est pas nécessaire avec ce squelette.
+
+## Pour utiliser ce squelette
+
+1. Fork/Clone ce dépôt
+2. Installer Python 3 (en mode local, pour utiliser en `venv`)
+3. Installer Flask:
+    $ pip install flask==1.0.2
+
+4. Configurer et activer l'environnement virtuel (`venv`) et les variables d'environnement pour Flask:
+
+    $ python -m venv env
+    $ source env/Scripts/activate
+    (env)$ export FLASK_APP=jeu_de_des/app.py
+    (env)$ export FLASK_ENV=development
+    (env)$ export FLASK_DEBUG=0
+
+5. Exécuter le serveur avec les commandes suivantes (p.ex. avec `bash`):
+
+    (env)$ python -m flask run
+
 
 Ce README n'est pas encore à jour...
 
@@ -10,13 +52,13 @@ Ce README n'est pas encore à jour...
 
 ---
 
-### Requirements
+## Dépendances
 
-This tutorial utilizes the following requirements:
+Ce squelette est basé sur les technologies suivantes:
 
 1. Python v3.6.5
 1. Flask v1.0.2
-1. Flask-SQLAlchemy v2.3.2
+1. ~~Flask-SQLAlchemy v2.3.2~~
 1. gunicorn v19.8.1
 
 ## Développement piloté par les tests (TDD)
