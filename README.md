@@ -53,23 +53,7 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
     > **NB**: L'activation de l'environnement virtuel s'indique par le mot "env" avant le $ dans le terminal - (env)$. Pour quitter cet environnement, utiliser la commande `deactivate`.
 
-1. Exécuter les tests:
-    ```bash
-    (env)$ python jeu_de_des/app-test.py
-    ```
-
-    Le résultat des tests est comme ceci:
-    ```
-    ..........
-    ----------------------------------------------------------------------
-    Ran 10 tests in 0.096s
-
-    OK
-    ```
-
-    Chaque `.` représente un test qui a passé.    
-
-6. Exécuter le serveur:
+1. Exécuter le serveur:
     ```bash
     (env)$ python -m flask run
     ```
@@ -85,6 +69,22 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
     Le serveur sera accessible sur votre machine à http://127.0.0.1:5000/ et vous devriez voir un écran comme ceci:
 
     ![Jeu de dés capture d'écran](https://github.com/profcfuhrmanets/log210-jeu-de-des-python-flask/raw/master/docs/Jeu_de_d%C3%A9s_index.png?s=50)
+
+1. Exécuter les tests (il n'est pas nécessaire de lancer le serveur d'abord, car les tests lancent le serveur au besoin):
+    ```bash
+    (env)$ python jeu_de_des/app-test.py
+    ```
+
+    Le résultat des tests est comme ceci:
+    ```
+    ..........
+    ----------------------------------------------------------------------
+    Ran 10 tests in 0.096s
+
+    OK
+    ```
+
+    Chaque `.` représente un test qui a passé.    
 
 ## Développement piloté par les tests (TDD)
 
