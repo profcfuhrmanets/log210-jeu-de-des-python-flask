@@ -4,7 +4,7 @@ from jeu_de_des.models.joueur import Joueur
 import logging
 import json
 
-logger = logging.Logger('catch_all')
+# logger = logging.Logger('catch_all')
 
 class JeuDeDes():
 
@@ -17,7 +17,7 @@ class JeuDeDes():
     def demarrer_jeu(self, nom) -> Joueur:
         if nom in self.joueurs:
             err = "Joueur " + nom + " existe déjà."
-            logger.error(err)
+            # logger.error(err)
             raise ValueError(err)
 
         # add to dictionary (map)
@@ -29,7 +29,7 @@ class JeuDeDes():
     def jouer(self, nom) -> str:
         if nom not in self.joueurs:
             err = "Joueur " + nom + " n'existe pas."
-            logger.error(err)
+            # logger.error(err)
             raise ValueError(err)
 
         # get from dictionary (map)
@@ -56,7 +56,7 @@ class JeuDeDes():
     def terminer_jeu(self, nom) -> str:
         if nom not in self.joueurs:
             err = "Joueur " + nom + " n'existe pas."
-            logger.error(err)
+            # logger.error(err)
             raise ValueError(err)
 
         # remove from dictionary (map)
