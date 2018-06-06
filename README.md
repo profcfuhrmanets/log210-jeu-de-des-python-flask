@@ -4,7 +4,7 @@ Ce squelette est proposé pour commencer les projets en LOG210. Il possède les 
 
 - il est simple pour les débutants en LOG210 
   - il n'y a pas de framework pour le front-end ni pour la persistance, mais ça n'empêche pas d'ajouter ces dimensions.
-  - il est seulement REST niveau 1, mais ça n'empêche pas de modifier l'API pour qu'il soit REST niveau 3.
+  - il est seulement [REST niveau 1](https://restfulapi.net/richardson-maturity-model/#level-one), mais ça n'empêche pas de modifier l'API pour qu'il soit [REST niveau 3](https://restfulapi.net/richardson-maturity-model/#level-three).
 - il est orienté objet (avec Python)
 - il contient des tests pour l'API (avec `unittest`)
 - il fait une séparation entre les couches présentation et domaine, selon la méthodologie de conception du cours LOG210 (Larman)
