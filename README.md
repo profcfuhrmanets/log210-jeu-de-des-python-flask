@@ -26,32 +26,40 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
 ## Pour utiliser ce squelette
 
-1. Fork/Clone ce dépôt
-2. Installer Python 3 (en mode local, pour utiliser en `venv`)
+1. Installer Python 3 (en mode local sur Windows, par exemple)
 
     [Python 3.6](https://www.python.org/downloads/release/python-360/) doit être installé, Il est téléchargeable à [http://www.python.org/download/](http://www.python.org/download/)
 
-    [venv](https://docs.python.org/3/library/venv.html) est utilisé pour créer un environnement isolé, une pratique importante pour le développement. Sans cela, on risque d'avoir des problèmes de dépendances implicites.
+1. Fork/Clone/Dezipper ce dépôt
 
-3. Installer Flask (ici j'utilise git bash sous Windows 10):
+1. Créer et activer l'environnement virtuel [venv](https://docs.python.org/3/library/venv.html). 
 
+    `venv` est utilisé pour créer un environnement isolé, une pratique importante pour le développement avec Python. Plus on fait de projets différents (avec leur dépendances différentes), plus c'est difficile d'isoler les dépendances sans des environnements virtuels.
     ```bash
-    $ pip install flask==1.0.2
-    ```
-
-4. Configurer et activer l'environnement virtuel (`venv`) et les variables d'environnement pour Flask:
-
-    ```bash
+    $ cd <répertoire_du_projet>
     $ python -m venv env
     $ source env/Scripts/activate
+    ```
+    Sur un autre système d'exploitation (Linux?) activer l'environnement virtuel ainsi:
+    ```sh
+    $ source env/bin/activate
+    ```
+    > **NB**: La première commande `$ python -m venv env` n'est nécessaire qu'une seule fois pour créer l'environnement virtuel.
+
+    > **NB**: L'activation de l'environnement virtuel s'indique par le mot "env" avant le $ dans le terminal - (env)$. Pour quitter cet environnement, utiliser la commande `deactivate`. Ne pas oublier de l'activer de nouveau avant de continuer à travailler sur le projet.
+
+1. Installer Flask (ici j'utilise git bash sous Windows 10):
+
+    ```bash
+    (env)$ pip install flask==1.0.2
+    ```
+
+1. Configurer les variables d'environnement pour Flask:
+    ```bash
     (env)$ export FLASK_APP=jeu_de_des/app.py
     (env)$ export FLASK_ENV=development
     (env)$ export FLASK_DEBUG=0
     ```
-
-    > **NB**: La première commande `$ python -m venv env` n'est nécessaire qu'une seule fois. 
-
-    > **NB**: L'activation de l'environnement virtuel s'indique par le mot "env" avant le $ dans le terminal - (env)$. Pour quitter cet environnement, utiliser la commande `deactivate`.
 
 1. Exécuter le serveur:
     ```bash
