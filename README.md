@@ -21,7 +21,7 @@ This tutorial utilizes the following requirements:
 
 ## Développement piloté par les tests (TDD)
 
-![États du TDD](http://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/profcfuhrmanets/log210-jeu-de-des-python-flask/docs/tdd.puml)
+![États du TDD](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/profcfuhrmanets/log210-jeu-de-des-python-flask/master/docs/tdd.puml)
 
 Test-Driven Development (TDD) is an iterative development cycle that emphasizes writing automated tests before writing the actual feature of function. Put another way, TDD combines building and testing. This process not only helps ensure correctness of the code - but also helps to indirectly evolve the design and architecture of the project at hand.
 
