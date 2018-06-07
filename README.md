@@ -10,11 +10,13 @@ Ce squelette est proposé pour commencer les projets en LOG210. Il possède les 
 - il fait une séparation entre les couches présentation et domaine, selon la méthodologie de conception du cours LOG210 (Larman)
 - il fonctionne sur Windows 10 (et probablement d'autres systèmes d'exploitation avec Python 3 en `venv`)  
 
+> **NB**: Il existe également [une variante de ce squelette pour Node.js/Express](https://github.com/profcfuhrmanets/log210-jeu-de-des-node-express-ts).
+
 ## D'où vient l'idée de base pour ce squelette?
 
 Le code original vient d'un dépôt Git avec un excellent tutoriel dans son README à https://github.com/mjhea0/flaskr-tdd. Ce dernier utilise même une base de données, mais il ne fait pas la
-séparation entre les couches de présentation et de domaine. C'est normal, puisque le problème démontré dans le tutoriel est simple. Pourtant, pour les systèmes complexes,
-il vaut mieux faire la séparation de ces couches et je voulais démontrer une façon de faire qui soit compatible avec la méthodologie enseignée dans le cours.
+séparation entre les couches de présentation et de domaine. C'est normal, puisque le problème présenté dans le tutoriel est simple (une seule classe du domaine). Pourtant, pour les systèmes complexes (avec un nombre important de classes du domaine),
+il vaut mieux faire la séparation de ces couches. Donc, j'ai adapté le tutoriel pour démontrer une façon de faire qui soit compatible avec la méthodologie enseignée dans le cours.
 
 Dans le cadre du cours [LOG210 de l'ÉTS](https://www.etsmtl.ca/Programmes-Etudes/1er-cycle/Fiche-de-cours?Sigle=log210), nous utilisons la méthodologie documentée par [Craig Larman dans son livre *Applying UML and Patterns*](http://www.craiglarman.com/wiki/index.php?title=Book_Applying_UML_and_Patterns). Ce livre documente beaucoup de principes avec des exemples en Java, qui n'est plus autant à la mode comme à l'époque où le livre a été écrit.
 
@@ -147,6 +149,8 @@ Dans la figure ci-dessus, l'objet `:JeuDeDes` (qui est un objet en dehors de la 
 ![Diagramme de séquence système](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/profcfuhrmanets/log210-jeu-de-des-node-express-ts/master/docs/dss-jouer.puml?cacheinc=5)
 
 ### Réalisations de cas d'utilisation (RDCU)
+
+> **NB**: En Python, on réalise la structure de données `Map` (de Larman) avec un [Dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries).
 
 ![Diagramme de séquence, demarrerJeu](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/profcfuhrmanets/log210-jeu-de-des-node-express-ts/master/docs/rdcu-demarrerJeu.puml?cacheinc=5)
 
