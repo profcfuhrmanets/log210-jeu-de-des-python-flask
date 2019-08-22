@@ -1,8 +1,6 @@
 language: python
-env:
-  - FLASK_APP=jeu_de_des/app.py
-  - FLASK_ENV=development
-  - FLASK_DEBUG=0
+before_install:
+  env: FLASK_APP=jeu_de_des/app.py
 install:
   - pip install -r requirements.txt
 script:
