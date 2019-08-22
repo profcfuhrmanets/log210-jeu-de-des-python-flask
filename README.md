@@ -1,5 +1,7 @@
 # Squelette pour un API simple dans Python et Flask 1.x
 
+![Build status](https://travis-ci.org/profcfuhrmanets/log210-jeu-de-des-python-flask.svg?branch=master)
+
 Ce squelette est proposé pour commencer les projets en LOG210. Il possède les qualités suivantes:
 
 - il est simple pour les débutants en LOG210 
@@ -32,9 +34,9 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
     [Python 3.6](https://www.python.org/downloads/release/python-360/) doit être installé, Il est téléchargeable à [http://www.python.org/download/](http://www.python.org/download/)
 
-1. Fork/Clone/Dezipper ce dépôt
+2. Fork/Clone/Dezipper ce dépôt
 
-1. Créer et activer l'environnement virtuel [venv](https://docs.python.org/3/library/venv.html). 
+3. Créer et activer l'environnement virtuel [venv](https://docs.python.org/3/library/venv.html). 
 
     `venv` est utilisé pour créer un environnement isolé, une pratique importante pour le développement avec Python. Plus on fait de projets différents (avec leur dépendances différentes), plus c'est difficile d'isoler les dépendances sans des environnements virtuels.
     ```bash
@@ -50,20 +52,20 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
     > **NB**: L'activation de l'environnement virtuel s'indique par le mot "env" avant le $ dans le terminal - (env)$. Pour quitter cet environnement, utiliser la commande `deactivate`. Ne pas oublier de l'activer de nouveau avant de continuer à travailler sur le projet.
 
-1. Installer Flask (ici j'utilise git bash sous Windows 10):
+4. Installer Flask (ici j'utilise git bash sous Windows 10):
 
     ```bash
     (env)$ pip install flask==1.0.2
     ```
 
-1. Configurer les variables d'environnement pour Flask:
+5. Configurer les variables d'environnement pour Flask:
     ```bash
     (env)$ export FLASK_APP=jeu_de_des/app.py
     (env)$ export FLASK_ENV=development
     (env)$ export FLASK_DEBUG=0
     ```
 
-1. Exécuter le serveur:
+6. Exécuter le serveur:
     ```bash
     (env)$ python -m flask run
     ```
@@ -80,7 +82,7 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
     ![Jeu de dés capture d'écran](https://github.com/profcfuhrmanets/log210-jeu-de-des-python-flask/raw/master/docs/Jeu_de_d%C3%A9s_index.png?s=50)
 
-1. Exécuter les tests (il n'est pas nécessaire de lancer le serveur d'abord, car les tests lancent le serveur au besoin):
+7. Exécuter les tests (il n'est pas nécessaire de lancer le serveur d'abord, car les tests lancent le serveur au besoin):
     ```bash
     (env)$ python jeu_de_des/app-test.py
     ```
