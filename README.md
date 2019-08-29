@@ -1,6 +1,9 @@
 # Squelette pour un API simple dans Python et Flask 1.x
 
-![Build status](https://travis-ci.org/profcfuhrmanets/log210-jeu-de-des-python-flask.svg?branch=master)
+<!---
+https://docs.travis-ci.com/user/status-images/
+-->
+[![Build Status](https://travis-ci.org/profcfuhrmanets/log210-jeu-de-des-python-flask.svg?branch=master)](https://travis-ci.org/profcfuhrmanets/log210-jeu-de-des-python-flask)
 
 Ce squelette est proposé pour commencer les projets en LOG210. Il possède les qualités suivantes:
 
