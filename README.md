@@ -56,10 +56,10 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
     > **NB**: L'activation de l'environnement virtuel s'indique par le mot "env" avant le $ dans le terminal - (env)$. Pour quitter cet environnement, utiliser la commande `deactivate`. Ne pas oublier de l'activer de nouveau avant de continuer à travailler sur le projet.
 
-4. Installer Flask (ici j'utilise git bash sous Windows 10):
+4. Installer les dépendences (Flask, etc.). Ici j'utilise git bash sous Windows 10:
 
     ```bash
-    (env)$ pip install flask==1.0.2
+    (env)$ pip install
     ```
 
 5. Configurer les variables d'environnement pour Flask:
@@ -70,11 +70,13 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
     ```
 
 6. Exécuter le serveur:
+
     ```bash
     (env)$ python -m flask run
     ```
 
     Vous devriez voir:
+
     ```
      * Serving Flask app "jeu_de_des/app.py"
      * Environment: development
@@ -88,19 +90,21 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
 
 7. Exécuter les tests (il n'est pas nécessaire de lancer le serveur d'abord, car les tests lancent le serveur au besoin):
     ```bash
-    (env)$ python jeu_de_des/app-test.py
+    (env)$ pytest
     ```
 
     Le résultat des tests est comme ceci:
     ```
-    ..........
-    ----------------------------------------------------------------------
-    Ran 10 tests in 0.096s
+    ======================================= test session starts =======================================
+    platform win32 -- Python 3.6.5, pytest-5.1.2, py-1.8.0, pluggy-0.12.0
+    rootdir: C:\Users\me\Documents\GitHub\flask-tdd-log210, inifile: setup.cfg, testpaths: tests
+    collected 10 items
 
-    OK
-    ```
+    tests\test_app.py ..........                                                                 [100%]
 
-    Chaque `.` représente un test qui a passé.    
+    ======================================= 10 passed in 0.39s  =======================================
+
+    Chaque `.` représente un test qui a passé.
 
 ## Développement piloté par les tests (TDD)
 
