@@ -3,4 +3,7 @@ python:
   - "3.6"
 before_script: export PYTHONPATH=$PYTHONPATH:$(pwd)
 script:
-  - python jeu_de_des/app-test.py
+  - python tests/test_app.py
+  - coverage run -m pytest
+after_success: 
+  - coveralls

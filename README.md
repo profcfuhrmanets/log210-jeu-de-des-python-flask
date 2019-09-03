@@ -4,6 +4,7 @@
 https://docs.travis-ci.com/user/status-images/
 -->
 [![Build Status](https://travis-ci.org/profcfuhrmanets/log210-jeu-de-des-python-flask.svg?branch=master)](https://travis-ci.org/profcfuhrmanets/log210-jeu-de-des-python-flask)
+[![Coverage Status](https://coveralls.io/repos/github/profcfuhrmanets/log210-jeu-de-des-python-flask/badge.svg)](https://coveralls.io/github/profcfuhrmanets/log210-jeu-de-des-python-flask)
 
 Ce squelette est proposé pour commencer les projets en LOG210. Il possède les qualités suivantes:
 
