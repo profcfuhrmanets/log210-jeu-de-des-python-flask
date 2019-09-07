@@ -62,17 +62,17 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
     (env)$ pip install
     ```
 
-5. Configurer les variables d'environnement pour Flask:
+5. Configurer les variables d'environnement pour Flask (toujours dans `(env)$`):
     ```bash
-    (env)$ export FLASK_APP=jeu_de_des/app.py
-    (env)$ export FLASK_ENV=development
-    (env)$ export FLASK_DEBUG=0
+    export FLASK_APP=jeu_de_des/app.py
+    export FLASK_ENV=development
+    export FLASK_DEBUG=0
     ```
 
 6. Exécuter le serveur:
 
     ```bash
-    (env)$ python -m flask run
+    python -m flask run
     ```
 
     Vous devriez voir:
@@ -84,9 +84,17 @@ L'IDE [PyCharm](https://www.jetbrains.com/pycharm/), dont il y a possibilité d'
      * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
     ```
 
-    Le serveur sera accessible sur votre machine à http://127.0.0.1:5000/ et vous devriez voir un écran comme ceci:
+    Le serveur sera accessible sur votre machine à http://127.0.0.1:5000/. 
+       <details>
+     <summary>Regarder exemple de la fonctionnalité</summary>
+ 
+     <p>
+ 
+     ![GIF animé de la fonctionnalité de l'application Jeu de Dés](https://user-images.githubusercontent.com/7606540/64476976-bb8c1c80-d163-11e9-8f62-9272e6ca46cb.gif)
 
-    ![Jeu de dés capture d'écran](https://github.com/profcfuhrmanets/log210-jeu-de-des-python-flask/raw/master/docs/Jeu_de_d%C3%A9s_index.png?s=50)
+    </p>
+   </details>
+
 
 7. Exécuter les tests (il n'est pas nécessaire de lancer le serveur d'abord, car les tests lancent le serveur au besoin):
     ```bash
