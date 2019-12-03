@@ -8,7 +8,7 @@ skinparam StateFontSize 16
 skinparam StateArrowFontSize 16
 skinparam DefaultFontName "Segoe UI Black"
 
-title États du TDD\n(Développement piloté par les tests,\nTest-driven development)\n
+title États du TDD\n(Développement piloté par les tests,\nAnglais: Test-driven development)\n
 
 state Rouge as "Au moins\nun test\néchoue" #red
 state Vert as "Tous\nles tests\npassent" #green
